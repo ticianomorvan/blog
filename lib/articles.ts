@@ -1,7 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { remark }
+import { remark } from 'remark';
+import html from 'remark-html';
+import type ArticleType from 'types/article';
 
 const articlesDirectory = path.join(process.cwd(), 'articles')
 
@@ -25,16 +27,28 @@ export function getArticlesIds() {
  * @param fileName The name of the file
  * @returns an object with all of the file headers and content.
  */
-export function getArticleData(fileName: string) {
+export const getArticleData = async (fileName: string): Promise<ArticleType> => {
   const id = fileName.replace(/\.md$/, '');
-  const fullPath = path.join(articlesDirectory, fileName);
-  const fileContents = fs.readFileSync(fullPath, 'utf-8');
+  const fullPath = path.join(articlesDirectory, `${id}.md`);
+  const fileData = fs.readFileSync(fullPath, 'utf-8');
 
-  const headers = matter(fileContents);
+  const matteredResult = matter(fileData);
+
+  const processedContent = await remark()
+    .use(html)
+    .process(matteredResult.content)
+
+  const contentHtml = processedContent.toString()
 
   return {
     id,
-    ...headers.data as { title: string, category: string, date: string }
+    contentHtml,
+    ...matteredResult.data as {
+      title: string,
+      subtitle: string,
+      categories: string[],
+      date: string
+    }
   }
 }
 
@@ -45,12 +59,12 @@ export function getArticleData(fileName: string) {
 export function getSortedArticlesData() {
   const fileNames = fs.readdirSync(articlesDirectory);
 
-  const allArticlesData = fileNames.map((fileName) => getArticleData(fileName))
-  return allArticlesData.sort((articleA, articleB) =>
-    articleA.date < articleB.date
+  const files = fileNames.map(async (fileName) => await getArticleData(fileName))
+  return files.sort((a, b) =>
+    a < b
       ? 1
-      : articleA.date > articleB.date
-        ? -1
+      : a > b
+        ? 1
         : 0
   )
 }
