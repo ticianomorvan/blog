@@ -1,36 +1,61 @@
-import { ReactElement } from 'react';
-import { IconType } from 'react-icons';
+import type { ReactElement } from 'react';
+import type { IconType } from 'react-icons';
 import {
   FaInstagram,
   FaLinkedinIn,
-  FaGithub
+  FaGithub,
 } from 'react-icons/fa';
+import User from 'lib/user';
 
-export type SocialsType = {
-  instagram?: string,
-  linkedin?: string,
-  github?: string
-}
+const supportedSocials = [
+  {
+    name: 'instagram',
+    icon: <FaInstagram />,
+  },
+  {
+    name: 'linkedin',
+    icon: <FaLinkedinIn />,
+  },
+  {
+    name: 'github',
+    icon: <FaGithub />,
+  },
+];
 
 export type SocialIconType = {
-  url: string;
+  domain: string;
+  user: string;
   icon: ReactElement<IconType>
 }
 
-const SocialIcon = ({ url, icon }: SocialIconType) => (
-  <a href={url} rel="noreferrer" target="_blank">
-    <span className="text-xl transition duration-150 hover:text-blue-700">
-      {icon}
-    </span>
-  </a>
-)
+function SocialIcon({ domain, user, icon }: SocialIconType) {
+  return (
+    <a href={`https://${domain}.com/${user}`} rel="noreferrer" target="_blank">
+      <span className="text-2xl transition duration-150 hover:text-blue-700 sm:text-2xl">
+        {icon}
+      </span>
+    </a>
+  );
+}
 
-const Socials = ({ instagram, linkedin, github }: SocialsType) => (
-  <ul className="flex gap-2">
-    {instagram ? <SocialIcon url={`https://instagram.com/${instagram}`} icon={<FaInstagram />} /> : null}
-    {linkedin ? <SocialIcon url={`https://linkedin.com/${linkedin}`} icon={<FaLinkedinIn />} /> : null}
-    {github ? <SocialIcon url={`https://github.com/${github}`} icon={<FaGithub />} /> : null}
-  </ul>
-)
+export default function Socials() {
+  return (
+    <ul className="flex gap-4">
+      {supportedSocials.map(({ name, icon }) => {
+        if (User.socials && name in User.socials) {
+          return (
+            <li key={name}>
+              <SocialIcon
+                domain={name}
+                icon={icon}
+                user={User.socials[name]}
+              />
+            </li>
+          );
+        }
 
-export default Socials;
+        return null;
+      })}
+    </ul>
+  );
+}

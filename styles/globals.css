@@ -1,3 +1,78 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.article-content {
+  @apply max-w-screen-md m-auto
+}
+
+.article-content h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-bold my-4
+}
+
+.article-content h1 {
+  @apply text-5xl
+}
+
+.article-content h2 {
+  @apply text-4xl
+}
+
+.article-content h3 {
+  @apply text-3xl
+}
+
+.article-content h4 {
+  @apply text-2xl
+}
+
+.article-content h5 {
+  @apply text-xl
+}
+
+.article-content h6,
+p {
+  @apply text-lg
+}
+
+.article-content a {
+  @apply transition duration-150 border-b-2 border-dashed border-gray-600 text-blue-700
+}
+
+.article-content a:hover {
+  @apply text-blue-800 border-gray-700
+}
+
+.article-content ul,
+ol {
+  @apply ml-4
+}
+
+.article-content ul {
+  @apply list-disc
+}
+
+.article-content ol {
+  @apply list-decimal
+}
+
+.article-content p code {
+  @apply text-base bg-gray-300 p-1 rounded-lg
+}
+
+.article-content pre code {
+  @apply rounded-lg my-4
+}
+
+.article-content img {
+  @apply w-full
+}
+
+.animated {
+  @apply transition duration-150
+}

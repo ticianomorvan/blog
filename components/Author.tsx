@@ -1,32 +1,26 @@
-import Image from 'next/image'
-import Socials, { SocialsType } from './Socials'
+import Image from 'next/image';
 
-type AuthorType = {
+interface IAuthor {
   name: string,
   photo: string,
-  socials: SocialsType
 }
 
-const Author = ({ name, photo, socials }: AuthorType) => (
-  <div className="m-4 flex justify-center gap-4">
-    <Image
-      src={photo}
-      alt={`${name}'s profile picture.`}
-      width={48}
-      height={48}
-      className="rounded-full"
-    />
-
-    <span className="flex items-center gap-4">
-      <p className="font-bold">{name}</p>
-      {'>'}
-      <Socials
-        instagram={socials.instagram}
-        github={socials.github}
-        linkedin={socials.instagram}
+export default function Author({ name, photo }: IAuthor) {
+  return (
+    <div className="m-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <Image
+        src={photo}
+        alt={`${name}'s profile picture.`}
+        width={48}
+        height={48}
+        className="rounded-full"
       />
-    </span>
-  </div>
-)
 
-export default Author;
+      <span>
+        <p className="text-gray-700">Escrito por</p>
+        <p className="font-bold">{name}</p>
+      </span>
+
+    </div>
+  );
+}

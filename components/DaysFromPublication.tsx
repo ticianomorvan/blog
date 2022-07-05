@@ -1,18 +1,21 @@
-import { formatDistance, parseISO } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import esLocale from 'date-fns/locale/es';
 
 type PropsType = {
   plainDate: string;
 }
 
-const DaysFromPublication = ({ plainDate }: PropsType) => {
-  const formattedDate = formatDistance(
+export default function DaysFromPublication({ plainDate }: PropsType) {
+  const formattedDate = format(
     new Date(parseISO(plainDate)),
-    new Date(),
-    { addSuffix: true, locale: esLocale }
-  )
+    'PPP',
+    { locale: esLocale },
+  );
 
-  return <p className="self-center text-center text-gray-600">{formattedDate}</p>
+  return (
+    <span className="self-center">
+      <p className="text-gray-700">El día</p>
+      <p className="font-bold">{formattedDate}</p>
+    </span>
+  );
 }
-
-export default DaysFromPublication;
