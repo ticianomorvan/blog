@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .article-content {
-  @apply max-w-screen-md m-auto
+  @apply max-w-screen-md m-auto mt-6
 }
 
 .article-content h1,
@@ -38,6 +38,10 @@ h6 {
 .article-content h6,
 p {
   @apply text-lg
+}
+
+.article-content p {
+  @apply text-justify
 }
 
 .article-content a {

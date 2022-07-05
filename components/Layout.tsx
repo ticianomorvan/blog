@@ -8,7 +8,7 @@ type LayoutType = {
 
 export default function Layout({ id, children }: LayoutType) {
   return (
-    <main id={id} className="container m-auto flex flex-col items-center">
+    <main id={id} className="container min-h-screen m-auto flex flex-col justify-between items-center">
       <section className="w-4/5 md:w-3/5 mt-10">
         {children}
       </section>

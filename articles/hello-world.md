@@ -5,13 +5,11 @@ categories: ['Información']
 date: '2022-07-05'
 ---
 
-# Bienvenidos a todos
-
 ¡Hola! mi nombre es Ticiano Morvan y este (aunque no lo parezca, ts) es mi blog. Decidí crearlo por mi fascinación a escribir, redactar y comunicar sobre temas de mi interés, e incluso sobre aquellos que quizá no tanto. Opté por desarrollar mi propia plataforma para escribir mis artículos por el mero deseo de desafiarme y aprender en el proceso (y bien sí aprendí, que fácil hubiese sido empezar en Hashnode o DEV.to) pero en fin, que lo importante es que ya está más o menos todo en su lugar y a partir de ahora trataré de traer algún que otro nuevo contenido por acá.  
 
 ## Sobre mí
 
-En resumidas cuentas, soy un desarrollador de Frontend buscando transicionar hacia el Fullstack. Aún curso la educación secundaria pero desde hace más de dos años que empecé a programar, primero en Python, luego en JavaScript y TypeScript. Mis tiempos programando no han sido fáciles, como los de nadie, pero he aprendido mucho y crecido como persona a niveles que no son fáciles de definir. Los valores que más me han acompañado a través de todo este tiempo son sin duda el aprendizajze continuo y autodidacta, la constancia y la cooperación.
+En resumidas cuentas, soy un desarrollador de Frontend buscando transicionar hacia el Fullstack. Aún curso la educación secundaria pero desde hace más de dos años que empecé a programar, primero en Python, luego en JavaScript y TypeScript. Mis tiempos programando no han sido fáciles, como los de nadie, pero he aprendido mucho y crecido como persona a niveles que no son fáciles de definir. Los valores que más me han acompañado a través de todo este tiempo son sin duda el aprendizaje continuo y autodidacta, la constancia y la cooperación.
 
 ## Sobre el blog
 
