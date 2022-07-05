@@ -1,11 +1,19 @@
+import type ArticleType from 'types/article';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import html from 'remark-html';
-import type ArticleType from 'types/article';
+import { marked } from 'marked';
+import sanitize from 'sanitize-html';
 
-const articlesDirectory = path.join(process.cwd(), 'articles')
+import renderer from './renderers';
+
+const articlesDirectory = path.join(process.cwd(), 'articles');
+
+marked.setOptions({
+  gfm: true,
+});
+
+marked.use({ renderer });
 
 /**
  * Get the IDs of all articles.
@@ -13,32 +21,40 @@ const articlesDirectory = path.join(process.cwd(), 'articles')
 export function getArticlesIds() {
   const fileNames = fs.readdirSync(articlesDirectory);
 
-  return fileNames.map((fileName) => {
-    return {
-      params: {
-        id: fileName.replace(/\.md$/, ''),
-      }
-    }
-  })
+  return fileNames.map((fileName) => ({
+    params: {
+      id: fileName.replace(/\.md$/, ''),
+    },
+  }));
 }
 
 /**
- * 
+ *
  * @param fileName The name of the file
  * @returns an object with all of the file headers and content.
  */
-export const getArticleData = async (fileName: string): Promise<ArticleType> => {
+export const getArticleData = (fileName: string): ArticleType => {
   const id = fileName.replace(/\.md$/, '');
   const fullPath = path.join(articlesDirectory, `${id}.md`);
   const fileData = fs.readFileSync(fullPath, 'utf-8');
 
   const matteredResult = matter(fileData);
 
-  const processedContent = await remark()
-    .use(html)
-    .process(matteredResult.content)
+  const parsedMarkdown = marked.parse(matteredResult.content);
 
-  const contentHtml = processedContent.toString()
+  const contentHtml = sanitize(parsedMarkdown, {
+    allowedTags: [
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'blockquote', 'div',
+      'hr', 'ul', 'ol', 'li', 'a', 'b', 'i', 'strong', 'code', 'pre',
+      'em', 'small', 'kbd', 'col', 'colgroup', 'table', 'u', 'tbody',
+      'thead', 'td', 'tr', 'th', 'img', 'span',
+    ],
+    allowedClasses: {
+      pre: ['language-*', 'hljs-*'],
+      code: ['language-*', 'hljs', '*'],
+      span: ['hljs-*'],
+    },
+  });
 
   return {
     id,
@@ -48,23 +64,17 @@ export const getArticleData = async (fileName: string): Promise<ArticleType> => 
       subtitle: string,
       categories: string[],
       date: string
-    }
-  }
-}
+    },
+  };
+};
 
 /**
- * 
+ *
  * @returns an array populated with the data of all the articles, sorted by date.
  */
-export function getSortedArticlesData() {
+export function getAllArticles() {
   const fileNames = fs.readdirSync(articlesDirectory);
 
-  const files = fileNames.map(async (fileName) => await getArticleData(fileName))
-  return files.sort((a, b) =>
-    a < b
-      ? 1
-      : a > b
-        ? 1
-        : 0
-  )
+  const files = fileNames.map((fileName) => getArticleData(fileName));
+  return files;
 }

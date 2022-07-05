@@ -1,30 +1,50 @@
-import type { NextPage } from 'next'
-import Layout from '../components/Layout'
-import Head from 'next/head'
-import Image from 'next/image'
+import type { GetStaticProps, GetStaticPropsResult } from 'next';
+import type ArticleType from 'types/article';
+import { getAllArticles } from 'lib/articles';
+import Image from 'next/image';
+import Head from 'next/head';
+import User, { IUser } from 'lib/user';
 
-const Home: NextPage = () => {
+// Components
+import Layout from 'components/Layout';
+import ArticleCard from 'components/ArticleCard';
+import Socials from 'components/Socials';
+
+type HomeType = {
+  user: IUser,
+  articles: ArticleType[]
+}
+
+export default function Home({ user, articles }: HomeType) {
   return (
     <>
       <Head>
-        <title>Ticiano Morvan's blog</title>
+        <title>{`${user.name} | Blog`}</title>
       </Head>
 
-      <Layout id='home-layout'>
+      <Layout id="home-layout">
         <div className="flex flex-col gap-8">
           <section className="flex flex-col items-center">
             <Image
-              src="/images/profile.jpg"
+              src={user.profilePicture}
+              alt={`${user.name}'s profile photo`}
               width={128}
               height={128}
               className="rounded-full"
             />
-            <h1 className="text-blue-700 text-3xl font-semibold p-2">
-              Ticiano Morvan
-            </h1>
-            <h2>
-              Frontend Developer 🚀 from Argentina 🇦🇷
+
+            <h1 className="mt-6 text-blue-700 text-3xl font-semibold">Ticiano Morvan</h1>
+            <h2 className="font-normal text-xl text-center">
+              {User.role}
+              {' '}
+              🚀 from
+              {' '}
+              {User.country.name}
+              {' '}
+              {User.country.emoji}
             </h2>
+
+            <Socials />
           </section>
 
           <section className="flex flex-col items-center">
@@ -32,14 +52,41 @@ const Home: NextPage = () => {
               ¡Bienvenidos a mi blog!
             </h3>
 
-            <p className="text-justify">
-              Aquí voy a escribir un poco acerca de programación, diseño, aplicaciones, tecnología, soft-skills y todo lo que se me cruce por la mente.
+            <p className="text-center sm:text-left">
+              Aquí voy a escribir un poco acerca de programación, diseño, aplicaciones, tecnología,
+              {' '}
+              soft-skills y todo lo que se me cruce por la mente.
             </p>
           </section>
+
+          {articles.map(({
+            id, title, subtitle, categories, date,
+          }) => (
+            <ArticleCard
+              key={`article-${id}`}
+              id={id}
+              title={title}
+              subtitle={subtitle}
+              categories={categories}
+              date={date}
+            />
+          ))}
+
         </div>
       </Layout>
     </>
-  )
+  );
 }
 
-export default Home
+export const getStaticProps: GetStaticProps = ():
+  GetStaticPropsResult<{ user: IUser, articles: ArticleType[] }> => {
+  const user = User;
+  const articles = getAllArticles();
+
+  return {
+    props: {
+      user,
+      articles,
+    },
+  };
+};

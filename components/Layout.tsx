@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from 'react';
+import Footer from './Footer';
 
 type LayoutType = {
   id: string,
@@ -7,10 +8,11 @@ type LayoutType = {
 
 export default function Layout({ id, children }: LayoutType) {
   return (
-    <main id={id} className="container flex justify-center">
-      <section className="w-4/5 mt-10">
+    <main id={id} className="container m-auto flex flex-col items-center">
+      <section className="w-4/5 md:w-3/5 mt-10">
         {children}
       </section>
+      <Footer />
     </main>
-  )
+  );
 }
