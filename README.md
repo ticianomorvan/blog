@@ -1,34 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is my personal blog.
 
-## Getting Started
+It's built on Next.js, so you can clone it and run `npm run dev` to start the development server.
 
-First, run the development server:
+## Customizing
 
-```bash
-npm run dev
-# or
-yarn dev
+I designed the page to be certainly customizable from the `lib/user.ts` file. You can change the values I provided to match with yours.
+
+**Note**: If you want to add a new social media that isn't supported by default, you have to edit the `supportedSocials` array in `/components/Socials.tsx` with the established pattern.
+
+For example:
+
+```tsx
+const supportedSocials = [
+  // ...Default socials
+  {
+    name: 'Twitch',
+    icon: <FaTwitch> // You can use another icon pack if you wish.
+  },
+]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Adding articles
+This is the easiest part, just drop a markdown file in `/articles/` with the following pattern:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```md
+---
+title: '<TITLE>'
+subtitle: '<SUBTITLE>'
+categories: ['YOUR', 'CATEGORIES']
+date: 'YYYY-MM-DD'
+---
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+# And here it begins...
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Styling
 
-## Learn More
+The styling it's done with Tailwind CSS, if you want, you can change the presets in the `tailwind.config.js` file. Also, if you want to change article's content style, you have to edit `/styles/globals.css` and style tag by tag (or group them).
 
-To learn more about Next.js, take a look at the following resources:
+### Syntax highlighting
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The syntax highlighting for code blocks it's built with help of `highlight.js` and `marked`. To add new languages, just import its file in the `lib/renderers.ts` and add a key-value pair in the `languages` map.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Future plans
+Even if it looks simple, it works. But, I want to keep working on it to make it even better, giving it features like comments, share options, reactions, and so on.
