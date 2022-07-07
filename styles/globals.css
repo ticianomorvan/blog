@@ -41,7 +41,7 @@ p {
 }
 
 .article-content p {
-  @apply text-justify
+  @apply text-justify my-2
 }
 
 .article-content a {
