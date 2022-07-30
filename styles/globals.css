@@ -36,7 +36,7 @@ h6 {
 }
 
 .article-content h6,
-p {
+p, li {
   @apply text-lg
 }
 
@@ -65,7 +65,7 @@ ol {
   @apply list-decimal
 }
 
-.article-content p code {
+.article-content p code, li code {
   @apply text-base bg-gray-300 p-1 rounded-lg
 }
 
